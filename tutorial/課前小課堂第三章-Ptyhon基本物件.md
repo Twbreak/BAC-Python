@@ -15,7 +15,7 @@ print("Python version: {}".format(python_version()))
 %autosave 120
 ```
 
-    Python version: 3.9.5
+    Python version: 3.9.13
     
 
 
@@ -24,6 +24,7 @@ print("Python version: {}".format(python_version()))
     
 
 ## List 列表
+---
 list 是一種可以儲存多個資料的容器，這些資料可以是任何型別，例如整數、字串、浮點數、布林值，甚至是其他列表
 
 
@@ -318,6 +319,7 @@ print(home)
     
 
 ## Tuple 元組
+---
 元組是用來存放多個資料的有序集合，與列表一樣可以存放不同型別的資料，但元組的內容一旦建立就<font color=#FF0000>無法改變</font><br>
 元組使用小括號 ```()``` 定義，裡面的元素用逗號 ```,``` 分隔<br>
 
@@ -361,11 +363,374 @@ print(a)
     <class 'tuple'>
     <class 'int'>
     (1, 2, 3)
+    ('apple', 'banana', 'orange', 'grap')
     
 
 ## Dictionary 字典
+---
+字典可以放入字串、整數、浮點數、布林值、列表、tuple和字典，只要通過 <font color=#FF0000>Key</font> 就能查到對應的 <font color=#FF0000>Value</font> <br>
+
+
+
+
+### 建立字典
+Key 必須是"字串"，後必須加上"引號"，value 可以放各種資料型態，不同的 Key 要以 ```,```分開
 
 
 ```python
-
+# dictionary_name = {'key' : value, 'key_1' : [value, value1, value2]}
+supermarket = {"section_1" : '蘋果', 'section_2' : ['牛肉', '豬肉', '羊肉'], 'Number_of _visitors' : 50 }
+print(supermarket)
+print(type(supermarket))
 ```
+
+    {'section_1': '蘋果', 'section_2': ['牛肉', '豬肉', '羊肉'], 'Number_of _visitors': 50}
+    <class 'dict'>
+    
+
+建立字典也可以使用```dict()```來建立字典，並且有三中方式<br>
+1. ```dict(Key = Value)```
+    - Key 要遵守 Python 的命名規則，= 後方就一樣可以放入各種資料型態的 Value ，最後一樣要用 ```,```分隔不同的 Key 
+2. 將兩個值的**二維 List** 或**二維 Tuple** 轉換為字典
+3. 雙字元的字串轉為字典
+
+
+
+```python
+#第一種
+# dictionary_name = dict(Key = Value, Key_1 = [value, value1, value2])
+supermarket_1 = dict(section_1 = '蘋果', section_2 = ['牛肉', '豬肉', '羊肉'], Number_of_visitors = 100)
+print(type(supermarket_1))
+print(supermarket_1, '\n-------------------')
+
+#第二種 (以list為範例)
+supermarket_list = [['section_1', '蘋果'], ['section_2', ['牛肉', '豬肉', '羊肉']], ['Number_of_visitors', 150]]
+supermarket_2 = dict(supermarket_list)
+print(type(supermarket_2))
+print(supermarket_2, '\n-------------------')
+
+#第三種 
+a_list = ['ab','cd','ef','gh']
+a_dict = dict(a_list)
+print(type(a_dict))
+print(a_dict)
+```
+
+    <class 'dict'>
+    {'section_1': '蘋果', 'section_2': ['牛肉', '豬肉', '羊肉'], 'Number_of_visitors': 100} 
+    -------------------
+    <class 'dict'>
+    {'section_1': '蘋果', 'section_2': ['牛肉', '豬肉', '羊肉'], 'Number_of_visitors': 150} 
+    -------------------
+    <class 'dict'>
+    {'a': 'b', 'c': 'd', 'e': 'f', 'g': 'h'}
+    
+
+### 讀取字典中的值
+決定好 Key 就可以讀取對應的 Value
+
+
+```python
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket_1 = dict(section_1 = '蘋果', section_2 = ['牛肉', '豬肉', '羊肉'], Number_of_visitors = 100)
+#今天想知道第二區在賣甚麼，可以透過supermarket_1['section_2']來得知
+section2_info = supermarket_1['section_2']
+print(section2_info)
+print(type(section2_info), '\n-------------------')
+
+#今天想知道第二區的第一格在賣甚麼，可以透過supermarket_1['section_2'][0]來得知
+section2_info_first = supermarket_1['section_2'][0]
+print(section2_info_first)
+print(type(section2_info_first))
+```
+
+    ['牛肉', '豬肉', '羊肉']
+    <class 'list'> 
+    -------------------
+    牛肉
+    <class 'str'>
+    
+
+除了上述的方法可以讀取字典中的值，也可以透過 ```get(Key)``` 來取得 Key 對應的 Value <br>
+使用原本的方法時，如果沒有對應的 Key 在字典中，這將會發生錯誤，但如果是用 ```get``` 這個方法，如果找不到 Key ，那將會回傳 ```None```
+
+
+```python
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket_1 = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], Number_of_visitors = 150)
+#今天想知道第二區在賣甚麼，可以透過supermarket_1.get('section_2')來得知
+section2_info = supermarket_1.get('section_2')
+print(section2_info)
+print(type(section2_info), '\n-------------------')
+
+#今天想知道第三區在賣甚麼，邏輯推理上可能可以使用supermarket_1.get('section_3')，但 supermarket_1 中 section_3 其實不存在，所以將會回傳 None
+section2_info = supermarket_1.get('section_3')
+print(section2_info)
+print(type(section2_info), '\n-------------------')
+```
+
+    ['牛肉', '雞肉', '羊肉']
+    <class 'list'> 
+    -------------------
+    None
+    <class 'NoneType'> 
+    -------------------
+    
+
+### 修改字典中的值
+方法有兩種，這兩者當遇到不存在於字典中的 ```Key``` 時，他們都會將新的 ```Key``` 和 ```Value``` 加入到字典當中<br>
+1. 中括號 [```Key```] = ```Value```
+2. setdefault(```Key```, ```Value```)
+
+
+
+```python
+#方法一
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket_1 = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], Number_of_visitors = 150)
+#當今天超市新增第一區改賣鳳梨
+supermarket_1['section_1'] = '鳳梨'
+print(supermarket_1['section_1'])
+print(type(supermarket_1['section_1']), '\n-------------------')
+
+#當今天超市新增第二區多賣豬肉
+supermarket_1['section_2'].append('豬肉')
+#supermarket_1['section_2']就是個list，所以直接使用append()來修改原本的list
+print(supermarket_1['section_2'])
+print(type(supermarket_1['section_2']), '\n-------------------')
+
+#當今天超市新增第三區要賣蔬菜
+supermarket_1['section_3'] = ['高麗菜','菠菜','茼蒿']
+print(supermarket_1['section_3'])
+print(type(supermarket_1['section_3']))
+```
+
+    鳳梨
+    <class 'str'> 
+    -------------------
+    ['牛肉', '雞肉', '羊肉', '豬肉']
+    <class 'list'> 
+    -------------------
+    ['高麗菜', '菠菜', '茼蒿']
+    <class 'list'>
+    
+
+
+```python
+#方法二
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket_1 = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], Number_of_visitors = 150)
+#當今天超市新增第一區改賣鳳梨
+section1_info = supermarket_1.setdefault('section_1', '鳳梨') 
+print(section1_info)
+print(type(section1_info), '\n-------------------')
+
+#當今天超市新增第三區要賣蔬菜
+supermarket_1.setdefault('section_3', ['高麗菜','菠菜','茼蒿'])
+section3_info = supermarket_1.get('section_3')
+print(section3_info)
+print(type(section3_info))
+```
+
+    蘋果
+    <class 'str'> 
+    -------------------
+    ['高麗菜', '菠菜', '茼蒿']
+    <class 'list'>
+    
+
+### 刪除字典中的值
+1. ```del```
+    - del[```Key```] 是刪除特定 Key 的 Value
+    - del dictionary_name 是刪除整個字典
+2. ```pop```
+    - ```pop(Key)```是取得並移出
+    - ```( )``` 需要需要有 ```Key```不然會報錯
+3. ```clear```
+    - ```dictionary_name.clear()``` 一次性將字典中所有項目清空刪除    
+
+
+```python
+#方法一
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], Number_of_visitors = 150)
+del supermarket['Number_of_visitors']
+print(supermarket)
+
+del supermarket
+print(supermarket)
+#出錯是因為 supermarket已經被我們從記憶體刪除了，所以無法再將他print出來，從而顯示 NameError: name 'supermarket' is not defined
+```
+
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉']}
+    
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[57], line 8
+          5 print(supermarket)
+          7 del supermarket
+    ----> 8 print(supermarket)
+          9 #出錯是因為 supermarket已經被我們從記憶體刪除了，所以無法再將他print出來，從而顯示 NameError: name 'supermarket' is not defined
+    
+
+    NameError: name 'supermarket' is not defined
+
+
+
+```python
+#方法二
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], Number_of_visitors = 150)
+List_of_Number_of_visitors = supermarket.pop('Number_of_visitors')
+print(supermarket)
+print(List_of_Number_of_visitors)
+```
+
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉']}
+    150
+    
+
+
+```python
+#方法三
+#超市為例，第一區賣蘋果，第二區賣三種肉
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], Number_of_visitors = 150)
+supermarket.clear()
+print(supermarket)
+```
+
+    {}
+    
+
+### 合併字典
+1. ```**``` dictionary_name，再透過 ```{ }```來組合，就可以將複數個字典合併在一起，變成一個<font color=#FF0000>新字典</font>， 當 ```Key``` 名稱重複，後面出現的將會覆蓋掉前面的
+2. ```update()```，將b字典合併到a字典，當 ```Key``` 名稱重複，一樣後面(b)出現的將會覆蓋掉前面的(a)
+
+
+```python
+#方法一
+#以兩間超市為例，將a與b合併為c
+supermarket_a = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], section_3 = ['樂事', '多力多滋', '奇多'], Number_of_visitors = 150)
+supermarket_b = dict(section_1 = '鳳梨', section_2 = ['牛肉', '羊肉'], Number_of_visitors = 10)
+supermarket_c = {**supermarket_a, **supermarket_b}
+#supermarket_b這將會覆蓋掉與supermarket_a相同Key的Value
+print(supermarket_c)
+```
+
+    {'section_1': '鳳梨', 'section_2': ['牛肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多'], 'Number_of_visitors': 10}
+    
+
+
+```python
+#方法二
+#以兩間超市為例
+supermarket_a = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], section_3 = ['樂事', '多力多滋', '奇多'], Number_of_visitors = 150)
+supermarket_b = dict(section_1 = '鳳梨', section_2 = ['牛肉', '羊肉'], Number_of_visitors = 10)
+supermarket_a.update(supermarket_b)
+print(supermarket_a)
+```
+
+    {'section_1': '鳳梨', 'section_2': ['牛肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多'], 'Number_of_visitors': 10}
+    
+
+### 取得字典中的所有的 ```Key``` 或所有的 ```Value```
+可以利用 ```.keys()``` 和 ```.values()``` 來達成
+
+
+```python
+#以超市為例
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], section_3 = ['樂事', '多力多滋', '奇多'])
+#取得Key
+#在這裡代表就是可以知道所有的Section名稱
+supermarket_sections = supermarket.keys()
+print(supermarket_sections, f', 型別: {type(supermarket_sections)}')
+#可以轉為list或tuple來去做運用
+print(list(supermarket_sections), '\n-------------------')
+
+#取得Value
+#在這裡代表就是可以知道所有的貨架上的所有品項
+supermarket_items = supermarket.values()
+print(supermarket_items, f', 型別: {type(supermarket_items)}')
+#可以轉為list或tuple來去做運用
+print(list(supermarket_items))
+```
+
+    dict_keys(['section_1', 'section_2', 'section_3']) , 型別: <class 'dict_keys'>
+    ['section_1', 'section_2', 'section_3'] 
+    -------------------
+    dict_values(['蘋果', ['牛肉', '雞肉', '羊肉'], ['樂事', '多力多滋', '奇多']]) , 型別: <class 'dict_values'>
+    ['蘋果', ['牛肉', '雞肉', '羊肉'], ['樂事', '多力多滋', '奇多']]
+    
+
+### in檢查字典中的 ```Key```
+存在就回傳 ```True``` ，不存在回傳 ```False```
+
+
+```python
+#以超市為例
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], section_3 = ['樂事', '多力多滋', '奇多'])
+print('Section_1 是否再 supermarket 中存在 :', 'section_1' in supermarket)
+print('Section_4 是否再 supermarket 中存在 :', 'section_4' in supermarket)
+```
+
+    Section_1 是否再 supermarket 中存在 : True
+    Section_4 是否再 supermarket 中存在 : False
+    
+
+### 複製字典
+1. ```copy()``` ，當 a 被 b 複製，複製後當 a 的 ```Value```是 list 且發生異動， b 也會受到影響，適合**不會有異動的**資料使用
+2. ```deepcopy()``` ， 當 a 被 b 複製，複製後當 a 發生異動， b **不會**受到影響
+|    方法    |      影響不可變對象 (int, str)       |      影響可變對象 (list, dict)       |
+|:--------:|:----------------:|:---------------:|
+|   copy()   |       不受影響        |       會受影響        |
+|    deepcopy()    | 	不受影響  | 不受影響  |
+
+
+
+```python
+#方法一
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], section_3 = ['樂事', '多力多滋', '奇多'])
+#要開一間一模一樣的超市分店
+supermarket_copy = supermarket.copy()
+print(supermarket)
+print(supermarket_copy, '\n-------------------')
+
+#當改變的是list時，list是共用記憶體，所以當原本的改變了，copy的也會受到影響(大概理解就好，詳細原理不贅述)
+supermarket['section_2'].append('豬肉')
+print(supermarket)
+print(supermarket_copy)
+```
+
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多']} 
+    -------------------
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉', '豬肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉', '豬肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
+    
+
+
+```python
+#方法二
+supermarket = dict(section_1 = '蘋果', section_2 = ['牛肉', '雞肉', '羊肉'], section_3 = ['樂事', '多力多滋', '奇多'])
+
+import copy
+supermarket_copy = copy.deepcopy(supermarket)
+print(supermarket)
+print(supermarket_copy, '\n-------------------')
+
+#當改變的是list時，這邊使用的deep copy，複製出來的supermarket完全獨立，所以當原本的改變了，deep copy的不會受到影響
+supermarket['section_2'].append('豬肉')
+print(supermarket)
+print(supermarket_copy)
+```
+
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多']} 
+    -------------------
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉', '豬肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
+    {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
+    
