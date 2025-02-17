@@ -734,3 +734,198 @@ print(supermarket_copy)
     {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉', '豬肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
     {'section_1': '蘋果', 'section_2': ['牛肉', '雞肉', '羊肉'], 'section_3': ['樂事', '多力多滋', '奇多']}
     
+
+### Set 集合
+集合是由數字、字串和布林值組成，在一個集合之中可以存在不同類型的資料，而建立集合有兩種方式</br>
+1. ```set()```
+2. ```{value}``` 如果不放值會被宣告為字典
+
+
+```python
+#方法一
+a = set() #宣告一個空集合
+b = set([1,1,2,3])
+c = set({'section_0': 'apple', 'section_1': [4, 5, 6], 'number': 10})
+d = set('BAC')
+
+print(type(a))
+print(b)    #只會留下不重複的部分
+print(c)    #只會保留key的部分
+print(d)    #會將每個字元分開
+```
+
+    <class 'set'>
+    {1, 2, 3}
+    {'number', 'section_1', 'section_0'}
+    {'B', 'C', 'A'}
+    
+
+
+```python
+#方法二
+a = {1, 2, 'B', True, False}    
+print(a)    # True為1，這與集合中的數字1重複，所以True沒有被保留下來，False被留下是因為False等同於0
+
+```
+
+### 新增與刪除集合中的值
+- 新增
+    1. ```.add(Value)```
+- 刪除
+    1. ```remove(Value)```
+    2. ```discard(Value)```    
+
+
+```python
+#新增
+a = {1, 2, 'B', True, False}    
+a.add(3)
+print(a)
+```
+
+    {False, 1, 2, 3, 'B'}
+    
+
+
+```python
+#刪除
+#方法一
+a = {1, 2, 'B', True, False}    
+a.remove(1)
+print(a)
+```
+
+    {'B', 2, False}
+    
+
+
+```python
+#刪除
+#方法二
+a = {1, 2, 'B', True, False}    
+a.discard(1)
+a.discard(3) #3不存在在集合之中，如果使用remove會出錯，但使用discard就不會報錯
+print(a)
+```
+
+    {'B', 2, False}
+    
+
+### 取得長度與檢察是否存在
+- ```len()```取得長度
+- ```in```判斷是否再集合之中
+
+
+```python
+a = {'a','b','c','d',1,2,3}
+#檢查長度
+print('set a 的長度為 :', len(a), '\n-----------')
+
+#檢查是否存在
+print('1 是否存在於 set a 中 :', 1 in a)
+print('777 是否存在於 set a 中 :', 777 in a, '\n-----------')
+#檢查是否不存在
+print('1 是否不存在於 set a 中 :', 1 not in a)
+print('777 是否不存在於 set a 中 :', 777 not in a)
+```
+
+    set a 的長度為 : 7 
+    -----------
+    1 是否存在於 set a 中 : True
+    777 是否存在於 set a 中 : False 
+    -----------
+    1 是否不存在於 set a 中 : False
+    777 是否存在於 set a 中 : True
+    
+
+### 交集、聯集、差集、對稱差集
+|    集合    |      方法      |      運算子       |     情況     |
+|:--------:|:----------------:|:---------------:|:----------:|
+|  交集  |       a.intersection(b)       |       a&b       | A與B集合的共有項目 |
+|    聯集    | 	a.union(b)  | a｜b  |A與B集合的所有項目 |
+|    差集    | 	a.difference(b)  | a-b  |A 集合扣掉 A B 集合的共有項目 |
+|    對稱差集    | 	a.symmetric_difference(b)  | a^b  |A與B集合的獨有項目 |
+
+
+
+```python
+a = {1,2,3,4,5}
+b = {3,4,5,6,7}
+
+# a交集b
+print(a.intersection(b))   
+print(a&b, '\n-----------')                 
+
+# a聯集b
+print(a.union(b))          
+print(a|b, '\n-----------')                 
+
+# a差集b
+print(a.difference(b))     
+print(a-b, '\n-----------') 
+
+# a對稱差集b
+print(a.symmetric_difference(b))  
+print(a^b)   
+```
+
+    {3, 4, 5}
+    {3, 4, 5} 
+    -----------
+    {1, 2, 3, 4, 5, 6, 7}
+    {1, 2, 3, 4, 5, 6, 7} 
+    -----------
+    {1, 2}
+    {1, 2} 
+    -----------
+    {1, 2, 6, 7}
+    {1, 2, 6, 7}
+    
+
+### 子集合與超集合
+- 子集合 (sebset) ： 若 A 集合的所有項目是 B 集合的部分集合, 則稱 A 為 B 的子集合
+- 超集合 (superset) ： 若 A 集合的所有項目是 B 集合的部分集合, 則稱 B 為 A 的超集合
+|    集合      |     說明     |
+|:--------:|:----------:|
+|    超集合      |     A 完全包含 B，A 和 B 所包含的元素可能完全相同     |
+|    真超集合      |     A 完全包含 B，且具有 B 沒有的的元素     |
+|    子集合      |     B 完全被 A 包含，A 和 B 所包含的元素可能完全相同     |
+|    真子集合      |     B 完全被 A 包含，且 A 具有 B 沒有的的元素     |
+
+可以使用```>, < ,=```來判斷，也可以使用```b.issubset(a)```檢測 b 是否為 a 的子集合，還有```a.issuperset(b)```檢測 a 是否為 b 的超集合
+
+
+```python
+a = {1,2,3,4,5,6,7}
+b = {3,4,5,6,7}
+c = {1,2,3,4,5,6,7}
+d = {6,7,8,9}
+
+print(a<=a)   # True 自己是自己的子集合
+print(b<=a)   # True b 是 a 的子集合
+print(b<a)    # True b 也是 a 的真子集合 ( 因爲沒有等於，完全包含 )
+print(c<=a)   # True c 是 a 的子集合
+print(a<=c)   # True a 也是 c 的子集合
+print(d<a)    # False d 和 a 沒有子集合或超集合關係
+```
+
+    True
+    True
+    True
+    True
+    True
+    False
+    
+
+
+```python
+a = {1,2,3,4,5,6,7}
+b = {3,4,5,6,7}
+c = {1,2,3,4,5,6,7}
+d = {6,7,8,9}
+
+print(b.issubset(a))     # True b 是 a 的子集合
+print(a.issuperset(b))   # True a 是 b 的超集合
+print(c.issubset(a))     # True c 是 a 的子集合
+print(d.issubset(a))     # Fasle d 不是 a 的子集合
+```
